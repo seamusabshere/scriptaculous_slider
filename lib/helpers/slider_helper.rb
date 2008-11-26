@@ -1,5 +1,8 @@
 # Copyright (c) 2005 Thomas Fuchs
 #
+# Contributors : 
+# - Nicolas Cavigneaux
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -35,28 +38,40 @@ module ActionView
            end
         end
         
-        [:handles, :spans, :axis].each do |k|
+        [:spans, :axis].each do |k|
           options[k] = array_or_string_for_javascript(options[k]) if options[k]
         end
         
-        if options[:sliderValue]
-          options[:sliderValue] = array_or_numeric_for_javascript(options[:slider_value])
-          options.delete :sliderValue
-        end
+        options[:sliderValue] = array_or_numeric_for_javascript(options[:sliderValue]) if options[:sliderValue]
         
         options[:range] = "$R(#{options[:range].min},#{options[:range].max})" if options[:range]
+        options[:values] = "$R(#{options[:values].min},#{options[:values].max})" if options[:values]
         
-        handle = options[:handles] || "$('#{element_id}').firstChild"
+        slider = ''
+        
+        if options[:hidden_fields] == true
+          slider = if options[:handles].kind_of?(Array)
+            hidden_fields = options[:handles].collect { |h| hidden_field_tag(h.to_s + "_value") }
+            hidden_fields.join("\n")
+          elsif !options[:handles].nil?
+            hidden_field_tag(options[:handles].to_s + "_value")
+          end
+          
+          options.delete(:hidden_fields)
+        end
+        
+        handle = array_or_string_for_javascript(options[:handles]) || "$('#{element_id}').firstChild"
         options.delete :handles
                 
-        javascript_tag("#{prepare}new Control.Slider(#{handle},'#{element_id}', #{options_for_javascript(options)})")
+        slider += javascript_tag("#{prepare}new Control.Slider(#{handle},'#{element_id}', #{options_for_javascript(options)})")
       end
       
       # Creates a simple slider control and associates it with a hidden text field
       def slider_field(object, method, options={})
         options.merge!({ 
           :change => "$('#{object}_#{method}').value = value",
-          :slider_value  => instance_variable_get("@#{object}").send(method)
+          :slider_value  => instance_variable_get("@#{object}").send(method),
+          :hidden_fields => false
         })
         hidden_field(object, method) <<        
         content_tag('div',content_tag('div', ''), 
@@ -92,21 +107,19 @@ module ActionView
         end
 
         def array_or_string_for_javascript(option)
-          js_option = if option.kind_of?(Array)
-            "['#{option.join('\',\'')}']"
+          if option.kind_of?(Array)
+            "['" + option.join("','") + "']"
           elsif !option.nil?
             "'#{option}'"
           end
-          js_option
         end
         
         def array_or_numeric_for_javascript(option)
-          js_option = if option.kind_of?(Array)
-            "[#{option.join('\',\'')}]"
+          if option.kind_of?(Array)
+            "[" + option.join(',') + "]"
           elsif !option.nil?
-            "#{option}"
+            option.to_s
           end
-          js_option
         end
 
     end
