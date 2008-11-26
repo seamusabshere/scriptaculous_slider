@@ -39,9 +39,9 @@ module ActionView
           options[k] = array_or_string_for_javascript(options[k]) if options[k]
         end
         
-        if options[:slider_value]
+        if options[:sliderValue]
           options[:sliderValue] = array_or_numeric_for_javascript(options[:slider_value])
-          options.delete :slider_value
+          options.delete :sliderValue
         end
         
         options[:range] = "$R(#{options[:range].min},#{options[:range].max})" if options[:range]
