@@ -24,9 +24,9 @@ slider_stylesheet builds a stylesheet for the slider (examine the output and
 copy/paste to your own CSS files).
 
 To see the full functionality and possibilities of the slider control,
-have a look a the functional and unit tests provided in the script.aculo.us
-SVN trunk, see http://wiki.script.aculo.us/scriptaculous/show/Versions.
+have a look at the functional and unit tests provided in the script.aculo.us
+GIT repository, see http://github.com/madrobby/scriptaculous/tree/master.
 
-For discussion of this plugin use the rails-spinoffs mailing list!
+For discussion of this plugin use the Prototype / Scriptaculous Google group (http://groups.google.com/group/prototype-scriptaculous)!
   
 Copyright (c) 2005 Marty Haught, Thomas Fuchs, released under the MIT license
