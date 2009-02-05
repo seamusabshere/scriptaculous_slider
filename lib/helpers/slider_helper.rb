@@ -63,16 +63,18 @@ module ActionView
         handle = array_or_string_for_javascript(options[:handles]) || "$('#{element_id}').firstChild"
         options.delete :handles
                 
-        slider += javascript_tag("#{prepare}new Control.Slider(#{handle},'#{element_id}', #{options_for_javascript(options)})")
+        slider += javascript_tag("#{prepare} #{element_id} = new Control.Slider(#{handle},'#{element_id}', #{options_for_javascript(options)})")
       end
       
       # Creates a simple slider control and associates it with a hidden text field
       def slider_field(object, method, options={})
         options.merge!({ 
           :change => "$('#{object}_#{method}').value = value",
-          :slider_value  => instance_variable_get("@#{object}").send(method),
           :hidden_fields => false
         })
+        if slider_value = instance_variable_get("@#{object}").send(method)
+          options.merge!({ :sliderValue  => slider_value })
+        end
         hidden_field(object, method) <<        
         content_tag('div',content_tag('div', ''), 
           :class => 'slider', :id => "#{object}_#{method}_slider") << 
