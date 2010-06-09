@@ -78,7 +78,7 @@ module ActionView
         hidden_field(object, method) <<        
         content_tag('div',content_tag('div', ''), 
           :class => 'slider', :id => "#{object}_#{method}_slider") << 
-        slider_element("#{object}_#{method}_slider", options)
+        slider_element("#{object}_#{method}_slider", options).html_safe
       end
       
       def slider_stylesheet
