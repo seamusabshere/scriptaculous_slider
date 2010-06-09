@@ -3,7 +3,7 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |s|
-    s.name = "scriptaculous_slider"
+    s.name = "seamusabshere-scriptaculous_slider"
     s.summary = "Scriptaculous slider plugin"
     s.email = "nico@bounga.org"
     s.homepage = "http://github.com/Bounga/scriptaculous_slider"
