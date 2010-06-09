@@ -11,6 +11,7 @@ begin
     s.authors = [ "Nico Bounga", "Marty Haught", "Thomas Fuchs", "Nicolas Cavigneaux" ]
     s.files = FileList["[A-Z]*.*", "{bin,generators,lib,test,spec}/**/*", "init.rb", "{javascripts,rails,tasks}/**/*"] # first two are jeweler defaults
   end
+  Jeweler::GemcutterTasks.new
 rescue LoadError
   puts "Jeweler not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
 end
